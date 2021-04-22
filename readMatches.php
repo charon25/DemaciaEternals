@@ -149,6 +149,36 @@
 						}
 					}
 				}
+
+				$winning_team = array();
+				$losing_team = array();
+				//Données de la game
+				foreach ($match_json['participants'] as $key => $participant) {
+					if ($participant['stats']['win']) {
+						$winning_team[] = $participant['championId'];
+					} else {
+						$losing_team[] = $participant['championId'];
+					}
+				}
+
+				$team1 = $match_json['teams'][0];
+				$blueside_win = 0;
+				if ($team1['teamId'] == 100) {
+					if ($team1['win'] == "Win")
+						$blueside_win = 1;
+					else
+						$blueside_win = 0;
+				} else {
+					if ($team1['win'] == "Win")
+						$blueside_win = 0;
+					else
+						$blueside_win = 1;
+				}
+
+				$req_insert_data = $bdd->prepare('INSERT INTO `et_matchs_data`(`winning_team`, `losing_team`, `blueside_win`) VALUES (?, ?, ?)');
+				$req_insert_data->execute(array(implode("_", $winning_team), implode("_", $losing_team), $blueside_win));
+
+
 			}
 			
 			$delete_string = $delete_string . '`id`=' . $match['id'] . ' OR ';
