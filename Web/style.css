@@ -1,0 +1,163 @@
+.font-weight-normal {
+    font-weight: normal !important;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+table thead {
+    vertical-align: middle !important;
+}
+
+.hide {
+    display: none !important;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+.bordered-cell {
+    border: 1px solid #EDEDED !important;
+}
+
+.vertical-scroll {
+    max-height: 450px;
+    overflow: auto;
+}
+
+.h3-title {
+    vertical-align: middle;
+    display:inline;
+}
+
+.expand-icon {
+    vertical-align: middle;
+    display:inline;
+}
+
+a {
+    text-decoration: inherit;
+    color: #7db2ff;
+}
+
+.text-left {
+    text-align: left !important;
+}
+
+.index-btn {
+    width: 180px;
+}
+
+.bordered {
+    border-bottom: 1px solid #EDEDED;
+    border-right: 1px solid #EDEDED;
+}
+
+.top-bordered {
+    border-top: 1px solid #EDEDED;
+}
+
+@media (min-width: 1200px) {
+    .top-bordered-lg {
+        border-top: 1px solid #EDEDED;
+    }
+}
+
+.left-bordered {
+    border-left: 1px solid #EDEDED;
+}
+
+@media (max-width: 1200px) {
+    .left-bordered-no-lg {
+        border-left: 1px solid #EDEDED;
+    }
+}
+
+.ranking-btn {
+    color: inherit;
+}
+
+.ranking-btn:hover {
+    color: inherit;
+}
+
+@font-face {
+    font-family: Quicksand;
+    src: url(resources/Quicksand.otf);
+}
+
+.cfont {
+    font-family: Quicksand;
+    background-color: #121212;
+    color: #CCCCCC;
+    padding-bottom: 70px;
+}
+
+.main-table-even {
+    background-color: #2c3034;
+}
+
+.main-table-odd {
+    background-color: #212529;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #121212;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #CCCCCC;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555555;
+}
+
+.table-striped>tbody>tr:nth-of-type(odd)>* {
+    color: #BBBBBB;
+}
+.table-striped>tbody>tr:nth-of-type(even)>* {
+    color: #CCCCCC;
+}
+
+thead {
+    color: #CCCCCC !important;
+}
+
+.auth-btn {
+    width: 250px;
+}
+
+.wrong-password {
+    color: #FC4949;
+    font-weight: bold;
+}
+
+small {
+    color: #AAAAAA !important;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-error {
+    margin-bottom: 0;
+    color: #FC4949;
+    font-weight: bold;
+}
+.form-success {
+    margin-bottom: 0;
+    color: #4DAD04;
+    font-weight: bold;
+}
+
+.no-margin-bottom {
+    margin-bottom: 0 !important;
+}

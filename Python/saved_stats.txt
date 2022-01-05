@@ -1,0 +1,10 @@
+kills
+assists
+deaths
+goldEarned
+individualPosition
+totalDamageDealtToChampions
+totalMinionsKilled
+neutralMinionsKilled
+visionScore
+championName

@@ -1,9 +1,2 @@
 bdd.php
-riot.txt
-riot_.txt
-constants.php
-backup/
-backup\
-temp.php
-demacia_icon.png
-icon.png
+Web/elo-icons/*.png
