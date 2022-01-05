@@ -2,9 +2,6 @@ import json
 import requests
 import time
 
-from requests import status_codes
-from requests.models import to_key_val_list
-
 
 RASPBERRY_PI = True
 

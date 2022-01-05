@@ -31,7 +31,8 @@
         global $champions_games_count;
         return $champions_games_count[$champion['name']]['games_count'] > 0;
     }
-    $champions = array_filter($champions, 'has_games_champion');
+    // Remove champions with no games
+    // $champions = array_filter($champions, 'has_games_champion');
 
     function cmp_champ_by_games($champion1, $champion2) {
         global $champions_games_count;
@@ -54,7 +55,7 @@
         <title>Éternels 2 de Demacia</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
         <link rel="stylesheet" href="style.css">
-        <link rel="icon" href="#">
+        <link rel="icon" href="resources/icon.png">
     </head>
 
     <body class="cfont container-fluid">

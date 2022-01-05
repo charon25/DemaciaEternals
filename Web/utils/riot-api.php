@@ -28,7 +28,7 @@
         }
 
         function get_puuid_id_from_name($summoner_name) {
-            $url = 'https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-name/' . $summoner_name;
+            $url = 'https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-name/' . urlencode($summoner_name);
             $summoner = $this->get_request($url);
             if (!array_key_exists('puuid', $summoner)) return FALSE;
             if (!array_key_exists('id', $summoner)) return FALSE;
