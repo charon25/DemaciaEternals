@@ -302,7 +302,7 @@
         <div id="block-elo-soloq">
         <?php if (!isset($no_soloq)) { ?>
         <div class="row mt-3 mb-3" data-masonry='{"percentPosition": true }'>
-            <div class="col-12 col-sm-6 offset-lg-1 col-lg-3 d-flex justify-content-center">
+            <div class="col-12 offset-lg-1 col-lg-3 d-flex justify-content-center">
                 <div class="row">
                     <div class="col-12 d-flex justify-content-center">
                         <img src="elo-icons/<?php echo explode(' ', $current_soloq['elo'])[0]; ?>.png" width="250">
@@ -315,7 +315,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-sm-6 col-lg-7">
+            <div class="col-12 col-lg-7">
                 <div id="soloq-chart"></div>
             </div>
         </div>
@@ -338,7 +338,7 @@
         <div id="block-elo-flex">
         <?php if (!isset($no_flex)) { ?>
         <div class="row mt-3 mb-3" data-masonry='{"percentPosition": true }'>
-            <div class="col-12 col-sm-6 offset-lg-1 col-lg-3 d-flex justify-content-center">
+            <div class="col-12 offset-lg-1 col-lg-3 d-flex justify-content-center">
                 <div class="row align-items-center">
                     <div class="col-12 d-flex justify-content-center">
                         <img src="elo-icons/<?php echo explode(' ', $current_flex['elo'])[0]; ?>.png" width="250">
@@ -351,7 +351,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-sm-6 col-lg-7">
+            <div class="col-12 col-lg-7">
                 <div id="flex-chart"></div>
             </div>
         </div>
@@ -643,7 +643,7 @@
                 ],
                 tooltip: {
                     x: {
-                        format: 'dd/MM/yy - HH:mm'
+                        format: 'dd/MM/yy'
                     },
                     y: [
                         {
