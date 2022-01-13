@@ -45,18 +45,21 @@ def get_sleep_duration():
 previous_day = None  # time.strftime('%Y%m%d')
 champions = None
 items = None
+matches_done = {}
 
 while True:
     try:
         current_day = time.strftime('%Y%m%d')
+        patch = riot.get_current_version()
+        logger.add_line('main', f"Current patch is : '{patch}'")
+        if patch is not None:
+            charon.update_patch(patch)
 
         if DEV or champions is None or items is None or current_day != previous_day:
-            patch = riot.get_current_version()
-            if patch is not None:
-                charon.update_patch(patch)
 
-            champions = riot.get_champions_dict(patch)
-            items = riot.get_items_dict(patch)
+            if patch is not None:
+                champions = riot.get_champions_dict(patch)
+                items = riot.get_items_dict(patch)
 
             master_limits = riot.get_master_limits()
             charon.update_master_limites(master_limits)
@@ -71,31 +74,47 @@ while True:
         for user in users:
             time.sleep(0.1)
 
+            if not user['user_id'] in matches_done:
+                matches_done[user['user_id']] = {}
+
             try:
                 update_user(user, DEV or current_day != previous_day)
 
                 if DEV or current_day != previous_day:
                     logger.add_line('main', f"Updating champion masteries and ranks for user '{user['name']}'")
-                    masteries = riot.get_champion_masteries(user['summoner_id'], champions)
-                    for smurf_sid in user['smurfs_sid'].split(','):
-                        if smurf_sid == '':continue
 
-                        logger.add_line('main', f"Smurf masteries for user '{user['name']}' with id : '{smurf_sid}'")
-                        smurf_masteries = riot.get_champion_masteries(smurf_sid, champions)
+                    if champions is not None:
+                        masteries = riot.get_champion_masteries(user['summoner_id'], champions)
+                        for smurf_sid in user['smurfs_sid'].split(','):
+                            if smurf_sid == '':continue
 
-                        for champion in smurf_masteries:
-                            masteries[champion] = masteries.get(champion, 0) + smurf_masteries[champion]
+                            logger.add_line('main', f"Smurf masteries for user '{user['name']}' with id : '{smurf_sid}'")
+                            smurf_masteries = riot.get_champion_masteries(smurf_sid, champions)
 
-                    charon.update_masteries(user['user_id'], masteries)
+                            for champion in smurf_masteries:
+                                masteries[champion] = masteries.get(champion, 0) + smurf_masteries[champion]
+
+                        charon.update_masteries(user['user_id'], masteries)
+                    else:
+                        logger.add_line('main-error', f"Can't update masteries because champions dict is None")
 
                     ranks = riot.get_ranks(user['summoner_id'])
                     for rank_type in ranks:
                         charon.add_rank(user['user_id'], rank_type, ranks[rank_type])
+                    
+                    if previous_day is not None:
+                        matchs = riot.get_matchs_data(user['user_id'], user['puuid'], int(time.time()) - 24 * 60 * 60, matches_done[user['user_id']])
+                        for match in matchs:
+                            charon.add_match(user['user_id'], match)
+                            matches_done[user['user_id']][match['id']] = None
+                        if len(matches_done[user['user_id']]) > 350:
+                            matches_done[user['user_id']] = {k: None for k in list(matches_done[user['user_id']].keys())[-350:]}
                 
                 logger.add_line('main', f"Adding matches of user '{user['name']}'")
-                matchs = riot.get_matchs_data(user['user_id'], user['puuid'], user['time'])
+                matchs = riot.get_matchs_data(user['user_id'], user['puuid'], user['time'], matches_done)
                 for match in matchs:
                     charon.add_match(user['user_id'], match)
+                    matches_done[user['user_id']][match['id']] = None
                 
                 charon.update_user_time(user['user_id'], time.time())
             except Exception as e:

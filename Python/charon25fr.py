@@ -27,7 +27,7 @@ class Charon25FR:
         
         self.logger.add_line('charon', f"Request for url '{url}' : {req.status_code} - {req.text}")
         if req.status_code >= 400:
-            self.logger.add_line('charon-error', f"Error")
+            self.logger.add_line('charon-error', f"Error {req.status_code} : '{req.text[:100]}'")
 
         try:
             return json.loads(req.text)

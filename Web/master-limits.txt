@@ -1,1 +1,1 @@
-{"soloq":{"chall":923,"gm":566},"flex":{"chall":502,"gm":188}}
+{"soloq":{"chall":495,"gm":153},"flex":{"chall":1000000,"gm":1000000}}

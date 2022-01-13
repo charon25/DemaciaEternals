@@ -593,7 +593,10 @@
                     type: 'datetime',
                     categories: x,
                     labels: {
-                        format: 'dd/MM/yy'
+                        format: 'dd/MM/yy',
+                        style: {
+                            colors: "#CCCCCC"
+                        }
                     }
                 },
                 yaxis:[
@@ -601,7 +604,8 @@
                         title: {
                             text: 'Rang',
                             style: {
-                                fontWeight: 'regular'
+                                fontWeight: 'regular',
+                                color: "#CCCCCC"
                             }
                         },
                         min: minRankY,
@@ -620,6 +624,9 @@
                                     val = val % 100;
                                     return `${tier} ${division}`;
                                 }
+                            },
+                            style: {
+                                colors: "#CCCCCC"
                             }
                         }
                     },
@@ -627,7 +634,8 @@
                         title: {
                             text: 'Winrate',
                             style: {
-                                fontWeight: 'regular'
+                                fontWeight: 'regular',
+                                color: "#CCCCCC"
                             }
                         },
                         min: minWr,
@@ -637,6 +645,9 @@
                         labels: {
                             formatter: function (val) {
                                 return `${val.toFixed(0)} %`;
+                            },
+                            style: {
+                                colors: "#CCCCCC"
                             }
                         }
                     }
@@ -673,6 +684,11 @@
                             }
                         }
                     ]
+                },
+                legend: {
+                    labels: {
+                        colors: "#CCCCCC"
+                    }
                 }
             };
             var chart = new ApexCharts(document.getElementById(`${type}-chart`), options);

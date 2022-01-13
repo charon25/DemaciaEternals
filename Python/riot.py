@@ -1,3 +1,4 @@
+from datetime import datetime
 import json
 import requests
 import time
@@ -57,6 +58,7 @@ class RiotAPI:
         try:
             return json.loads(req.text)
         except Exception:
+            self.logger.add_line('riot-error', f"Error while parsing json of request")
             return None
 
     def get_summoner_from_name(self, name):
@@ -94,7 +96,7 @@ class RiotAPI:
             # 'totalDeaths': sum(participant['deaths'] for participant in info['participants']),
         }
 
-    def get_matchs_data(self, user_id, puuid, start_time):
+    def get_matchs_data(self, user_id, puuid, start_time, already_done={}):
         output = []
 
         start = 0
@@ -106,11 +108,18 @@ class RiotAPI:
             if len(temp_list) < 100:
                 break
             start += 100
+        
+        self.logger.add_line('riot', f'{len(matchlist)} matches found : {matchlist}')
 
         for match_id in matchlist:
             try:
+                if match_id in already_done:
+                    continue
+
                 match = self._get_match_json(match_id)
                 match_data = self._get_match_general_data(match)
+
+                self.logger.add_line('riot', f'Match {match_id} played at {datetime.fromtimestamp(int(match_data["time"])).strftime("%H:%M:%S")}')
                 
                 if match_data['duration'] < 10 * 60:
                     continue
@@ -137,7 +146,11 @@ class RiotAPI:
         return output
 
     def get_current_version(self):
-        return self._get_response('https://ddragon.leagueoflegends.com/api/versions.json', token=False)[0]
+        current_version = self._get_response('https://ddragon.leagueoflegends.com/api/versions.json', token=False)
+        if current_version is not None:
+            return current_version[0]
+
+        return None
 
     def get_champions_dict(self, patch=None):
         if patch is None:
