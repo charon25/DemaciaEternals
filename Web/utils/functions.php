@@ -132,7 +132,7 @@
 
     function get_all_champions($bdd, $patch, $alphabetic=FALSE) {        
         $request = $bdd->query('SELECT * FROM `et2_champions`');
-        $champions = array('' => '?');
+        $champions = array();
 
         while ($row = $request->fetch()) {
             $champions[strtolower($row['name'])] = $row;
