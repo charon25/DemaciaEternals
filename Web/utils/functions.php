@@ -132,18 +132,18 @@
 
     function get_all_champions($bdd, $patch, $alphabetic=FALSE) {        
         $request = $bdd->query('SELECT * FROM `et2_champions`');
-        $champions = array();
+        $champions = array('' => '?');
 
         while ($row = $request->fetch()) {
-            $champions[$row['name']] = $row;
-            $champions[$row['name']]['img'] = 'https://ddragon.leagueoflegends.com/cdn/' . $patch . '/img/champion/' . $row['name'] . '.png';
+            $champions[strtolower($row['name'])] = $row;
+            $champions[strtolower($row['name'])]['img'] = 'https://ddragon.leagueoflegends.com/cdn/' . $patch . '/img/champion/' . $row['name'] . '.png';
         }
 
         if ($alphabetic) {
             usort($champions, 'champion_cmp');
             $new_champions = array();
             foreach ($champions as $_ => $champion) {
-                $new_champions[$champion['name']] = $champion;
+                $new_champions[strtolower($champion['name'])] = $champion;
             }
             return $new_champions;
         } else {
@@ -171,7 +171,7 @@
     function get_mp_content($name, $password, $already_has_profile) {
         $message = array(
             "========================================",
-            "Salut **" . $name . "** ! Je suis le bot de Charon et je viens pour te permettre de " . ($already_has_profile ? 'modifier' : 'créer') . " ton profil utilisateur sur la toute nouvelle version des Éternels de Demacia !",
+            "Salut **" . $name . "** ! Je suis le bot de Charon et je viens pour te permettre de " . ($already_has_profile ? 'modifier' : 'créer') . " ton profil utilisateur sur la toute nouvelle version des Éternels de Demacia, qui débute avec la saison 12 !",
             "",
             "Si tu ne sais pas ce dont il s'agit, c'est un site web, créé par Charon, qui te permet d'avoir accès à de nombreuses statistiques sur tes games de LoL, ton ELO, ..., ainsi que des classements entre Demaciens sur ces données. Le site est accessible à ce lien : **https://www.charon25.fr/eternals**, et si tu veux un exemple, tu peux voir les stats de Charon ici : **https://charon25.fr/eternals/user?user_id=2ebcbccb**.",
             "",

@@ -24,8 +24,8 @@
 
     $PATCH = file_get_contents('patch.txt');
 
-    $CHAMPIONS = get_all_champions($bdd, $PATCH);
-    $CHAMPIONS['Total'] = array('img' => 'resources/Total.png', 'showname' => 'Total');
+    $CHAMPIONS = get_all_champions($bdd, $PATCH); // Tous les noms sont en minuscules pour éviter le bug "FiddleSticks"
+    $CHAMPIONS['total'] = array('img' => 'resources/Total.png', 'showname' => 'Total');
 
     $request = $bdd->query('SELECT `id`, `name_fr`, `type` FROM `et2_items` WHERE `type` IN ("mythic", "legendary")');
     $ITEMS = array();
@@ -41,7 +41,7 @@
     $stats = get_all_stats($bdd);
 
     $QUEUES = array('400' => 'normal', '420' => 'soloq', '440' => 'flex', '450' => 'aram');
-    $ROLES = array('TOP' => 'Top', 'JUNGLE' => 'Jungle', 'MIDDLE' => 'Mid', 'BOTTOM' => 'ADC', 'UTILITY' => 'Supp');
+    $ROLES = array('TOP' => 'Top', 'JUNGLE' => 'Jungle', 'MIDDLE' => 'Mid', 'BOTTOM' => 'ADC', 'UTILITY' => 'Supp', 'Invalid' => '?');
     $ARAM_REMOVED = array('Jungle/min', 'Vision/min');
 
 
@@ -105,6 +105,7 @@
         if (!array_key_exists($queue_id, $opponents_games_counts)) $opponents_games_counts[$queue_id] = array();
         foreach ($queue as $key => $champion) {
             foreach ($champion['games'] as $i => $game) {
+                if ($champion['name'] == '') continue;
                 $champion_name = $champion['name'] . ($queue_id == 450 ? '' : ' ' . $ROLES[$game['role']]);
                 if (!array_key_exists($champion_name, $opponents_stats[$queue_id])) $opponents_stats[$queue_id][$champion_name] = array();
                 if (!array_key_exists($champion_name, $opponents_games_counts[$queue_id])) $opponents_games_counts[$queue_id][$champion_name] = 0;
@@ -230,7 +231,7 @@
                 echo '<tbody>';
                 foreach ($queue as $champion_name => $queue_champions_stats) {
                     echo '<tr>';
-                    $champion_name_alone = explode(' ', $champion_name)[0];
+                    $champion_name_alone = strtolower(explode(' ', $champion_name)[0]);
                     $role = ($queue_id == 450 || $champion_name == 'Total' ? '' : explode(' ', $champion_name)[1]);
                     echo '<td scope="row" class="text-start text-nowrap" data-type="champion"><a href="ranking?champion="' . $champion_name_alone . '"><img src="' . $CHAMPIONS[$champion_name_alone]['img'] . '" width="30"> ' . $CHAMPIONS[$champion_name_alone]['showname'] . ($queue_id == 450 || $champion_name == 'Total' ? '' : ' (' . $role . ')') . '</a></td>';
                     echo '<td class="font-weight-normal" data-type="int">' . $games_counts[$queue_id][$champion_name] . '</td>';
@@ -272,7 +273,7 @@
                 echo '<tbody>';
                 foreach ($queue as $champion_name => $queue_opponent_stats) {
                     echo '<tr>';
-                    $champion_name_alone = explode(' ', $champion_name)[0];
+                    $champion_name_alone = strtolower(explode(' ', $champion_name)[0]);
                     $role = explode(' ', $champion_name)[1];
                     echo '<td scope="row" class="text-start text-nowrap" data-type="champion"><a href="' . $champion_name_alone . '"><img src="' . $CHAMPIONS[$champion_name_alone]['img'] . '" width="30"> ' . $CHAMPIONS[$champion_name_alone]['showname'] . ' (' . $role . ')</a></td>';
                     echo '<td class="font-weight-normal" data-type="int">' . $opponents_games_counts[$queue_id][$champion_name] . '</td>';
@@ -383,7 +384,7 @@
                         <?php
                             $k = 0;
                             foreach ($masteries as $champion => $points) {
-                                $td = '<td class="bordered-cell"><img src="' . $CHAMPIONS[$champion]['img'] . '" width="50"><br><span class="bold">' . number_format(intval($points) / 1000, 0, ",", " ") . ' k</span>';
+                                $td = '<td class="bordered-cell"><img src="' . $CHAMPIONS[strtolower($champion)]['img'] . '" width="50"><br><span class="bold">' . number_format(intval($points) / 1000, 0, ",", " ") . ' k</span>';
                                 if ($k == 0) {
                                     echo "<tr>$td";
                                 } elseif ($k == 3) {
