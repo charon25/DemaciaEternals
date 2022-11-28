@@ -115,6 +115,22 @@
         }
     }
 
+    function get_user_mastery_one_champion($bdd, $user_id, $champion) {
+        $request = $bdd->prepare('SELECT `masteries` FROM `et2_masteries` WHERE `user_id`=?');
+        $request->execute(array($user_id));
+        $result = $request->fetch();
+        
+        if (!is_array($result)) return -1;
+    
+        $masteries = json_decode($result['masteries'], TRUE);
+
+        if (array_key_exists($champion, $masteries)) {
+            return $masteries[$champion];
+        }
+
+        return -1;
+    }
+
     function _compare_champions__get_request($champ1, $champ2) {
         $champ1_games = count($champ1['games']);
         $champ2_games = count($champ2['games']);

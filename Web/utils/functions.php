@@ -14,7 +14,7 @@
     function compute_stats_raw($game, $stat) {
         if ($stat['type'] == 0) {
             $div = explode('/', $stat['calculation']);
-            if ($game[$div[1]] === 0) return 0;
+            if ($game[$div[1]] == 0) return 0;
             return $game[$div[0]] / $game[$div[1]];
         } elseif ($stat['type'] == 1) {
             return $game[$stat['calculation']];

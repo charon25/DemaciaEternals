@@ -13,7 +13,7 @@
     $PATCH = file_get_contents('patch.txt');
     $CHAMPIONS = get_all_champions($bdd, $PATCH);
 
-    $CHAMPION = (array_key_exists('champion', $_GET) && array_key_exists($_GET['champion'], $CHAMPIONS) ? $_GET['champion'] : '_all_');
+    $CHAMPION = (array_key_exists('champion', $_GET) && array_key_exists(strtolower($_GET['champion']), $CHAMPIONS) ? $_GET['champion'] : '_all_');
 
     $STATS_ORDER = array(
         'Kills', 'Deaths', 'Assists', 'KDA',
@@ -69,6 +69,13 @@
         }
     }
 
+    function cmp_masteries($user1, $user2) {
+        if ($user1['points'] === $user2['points']) {
+            return strcmp($user1['name'], $user2['name']);
+        }
+        return $user2['points'] <=> $user1['points'];
+    }
+
     if ($CHAMPION === '_all_') {
         $masteries = array();
         foreach ($users as $user_id => $user) {
@@ -78,11 +85,15 @@
             $masteries[$user_id] = array('user_id' => $user_id, 'name' => $user['name'], 'champion' => array_keys($most_played_champion)[0], 'points' => array_values($most_played_champion)[0]);
         }
 
-        function cmp_masteries($user1, $user2) {
-            if ($user1['points'] === $user2['points']) {
-                return strcmp($user1['name'], $user2['name']);
-            }
-            return $user2['points'] <=> $user1['points'];
+        usort($masteries, 'cmp_masteries');
+    } else {
+        $masteries = array();
+        foreach ($users as $user_id => $user) {
+            if (!($user['auth'] & 32)) continue;
+            $mastery = get_user_mastery_one_champion($bdd, $user_id, $CHAMPION);
+            if ($mastery < 0) continue; // = bug ou 0 points
+            if ($mastery < 21600) continue; // 21600 est le nombre de points nécessaire pour la maîtrise 5
+            $masteries[$user_id] = array('user_id' => $user_id, 'name' => $user['name'], 'champion' => $CHAMPION, 'points' => $mastery);
         }
 
         usort($masteries, 'cmp_masteries'); 
@@ -103,7 +114,7 @@
 
     <body class="cfont container-fluid">
         <div class="row mt-2 mb-3">
-            <div class="col-12 col-sm-12 d-flex justify-content-center text-center"><h1>Classement<?php echo ($CHAMPION === '_all_' ? ' global' : '') ?> des Demaciens<?php echo ($CHAMPION === '_all_' ? '' : ' sur ' . $CHAMPIONS[$CHAMPION]['showname'])?></h1></div>
+            <div class="col-12 col-sm-12 d-flex justify-content-center text-center"><h1>Classement<?php echo ($CHAMPION === '_all_' ? ' global' : '') ?> des Demaciens<?php echo ($CHAMPION === '_all_' ? '' : ' sur ' . $CHAMPIONS[strtolower($CHAMPION)]['showname'])?></h1></div>
         </div>
 
         <div class="row mt-3 mb-3">
@@ -115,8 +126,6 @@
                 </a>
             </div>
         </div>
-        
-        <?php if ($CHAMPION === '_all_') { ?>
 
         <div class="row mt-3 mb-3">
             <div class="col-12 col-sm-12 d-flex justify-content-center"><h3>Points de maîtrises max</h3></div>
@@ -140,7 +149,7 @@
                                     echo '<tr>';
                                     echo '<td scope="row" class="text-nowrap text-center bold" data-type="int">' . $rank . ($rank == 1 ? 'er' : 'e') . '</td>';
                                     echo '<td scope="row" class="text-nowrap text-start" data-type="demacien"><a href="user?user_id=' . $user['user_id'] . '"><img src="' . $users[$user['user_id']]['img'] . '" width="32"> ' . $user['name'] . '</a></td>';
-                                    echo '<td scope="row" class="text-nowrap text-start" data-type="masteries"><a href="ranking?champion=' . $user['champion'] . '"><img src="' . $CHAMPIONS[$user['champion']]['img'] . '" width="32"></a> ' . number_format($user['points'] / 1000, 0, ',', ' ') . ' k</td>';
+                                    echo '<td scope="row" class="text-nowrap text-start" data-type="masteries"><a href="ranking?champion=' . $user['champion'] . '"><img src="' . $CHAMPIONS[strtolower($user['champion'])]['img'] . '" width="32"></a> ' . number_format($user['points'] / 1000, 0, ',', ' ') . ' k</td>';
                                     echo '</tr>';
                                     $rank++;
                                 }
@@ -150,8 +159,6 @@
                 </div>
             </div>
         </div>
-
-        <?php } ?>
         
         
         <div class="row mt-3">
