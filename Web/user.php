@@ -233,7 +233,7 @@
                     echo '<tr>';
                     $champion_name_alone = strtolower(explode(' ', $champion_name)[0]);
                     $role = ($queue_id == 450 || $champion_name == 'Total' ? '' : explode(' ', $champion_name)[1]);
-                    echo '<td scope="row" class="text-start text-nowrap" data-type="champion"><a href="ranking?champion=' . $CHAMPIONS[$champion_name_alone]['name'] . '"><img src="' . $CHAMPIONS[$champion_name_alone]['img'] . '" width="30"> ' . $CHAMPIONS[$champion_name_alone]['showname'] . ($queue_id == 450 || $champion_name == 'Total' ? '' : ' (' . $role . ')') . '</a></td>';
+                    echo '<td scope="row" class="text-start text-nowrap" data-type="champion"><a href="ranking' . ($champion_name == 'Total' ? '' : '?champion=' . $CHAMPIONS[$champion_name_alone]['name']) . '"><img src="' . $CHAMPIONS[$champion_name_alone]['img'] . '" width="30"> ' . $CHAMPIONS[$champion_name_alone]['showname'] . ($queue_id == 450 || $champion_name == 'Total' ? '' : ' (' . $role . ')') . '</a></td>';
                     echo '<td class="font-weight-normal" data-type="int">' . $games_counts[$queue_id][$champion_name] . '</td>';
                     foreach ($queue_champions_stats as $stat_symbol => $stat_value) {
                         if (!array_key_exists($stat_symbol, $stats)) continue;
