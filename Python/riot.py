@@ -137,7 +137,7 @@ class RiotAPI:
                     match_data[stat] = participant[stat]
 
                 try:
-                    match_data['pings'] = ','.join(participant[ping] for ping in self.saved_pings)
+                    match_data['pings'] = ','.join(str(participant[ping]) for ping in self.saved_pings)
                 except Exception as e:
                     self.logger.add_line('riot-error', f"Error while getting pings of match '{match_id}' : {str(e)}")
                     match_data['pings'] = 'x'
