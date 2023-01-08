@@ -7,6 +7,7 @@ import time
 RASPBERRY_PI = True
 
 SAVED_STATS_PATH = ('/home/pi/eternals/' if RASPBERRY_PI else '') + 'saved_stats.txt'
+SAVED_PINGS_PATH = ('/home/pi/eternals/' if RASPBERRY_PI else '') + 'saved_pings.txt'
 
 TIERS_LP = {
     'IRON': 0,
@@ -38,6 +39,9 @@ class RiotAPI:
         self.logger = logger
         with open(SAVED_STATS_PATH, 'r', encoding='utf-8') as fi:
             self.saved_stats = fi.read().splitlines()
+        with open(SAVED_PINGS_PATH, 'r', encoding='utf-8') as fi:
+            self.saved_pings = fi.read().splitlines()
+
 
     def _get_response(self, url, token=True):
         time.sleep(0.05)
@@ -131,6 +135,13 @@ class RiotAPI:
 
                 for stat in self.saved_stats:
                     match_data[stat] = participant[stat]
+
+                try:
+                    match_data['pings'] = ','.join(participant[ping] for ping in self.saved_pings)
+                except Exception as e:
+                    self.logger.add_line('riot-error', f"Error while getting pings of match '{match_id}' : {str(e)}")
+                    match_data['pings'] = 'x'
+
                 match_data['win'] = int(participant['win'])
                 match_data['teamId'] = 0 if participant['teamId'] == 100 else 1
                 match_data['totalKills'] = sum(p['kills'] for p in match['info']['participants'] if p['teamId'] == participant['teamId'])

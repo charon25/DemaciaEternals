@@ -1,0 +1,13 @@
+basicPings
+getBackPings
+dangerPings
+onMyWayPings
+assistMePings
+enemyMissingPings
+pushPings
+allInPings
+holdPings
+baitPings
+enemyVisionPings
+visionClearedPings
+needVisionPings
