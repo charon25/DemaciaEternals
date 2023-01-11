@@ -22,7 +22,7 @@
     if (!is_array($request->fetch())) {
         $request = $bdd->prepare('INSERT INTO `et2_matchs`(`user_id`, `match_id`, `time`, `champion`, `opponent`, `win`, `teamId`, `role`, `duration`, `queue`, `total_kills`, `total_deaths`, `kills`, `assists`, `deaths`, `golds`, `damages`, `minions`, `monsters`, `vision`, `items`, `pings`, `pentakills`) VALUES (:user_id, :id, :time, :championName, :opponent, :win, :teamId, :individualPosition, :duration, :queue, :totalKills, :totalDeaths, :kills, :assists, :deaths, :goldEarned, :totalDamageDealtToChampions, :totalMinionsKilled, :neutralMinionsKilled, :visionScore, :items, :pings, :pentaKills)');
         $request->execute($DATA['match']);
-        
+
         echo '{"status":{"message":"Match added","status_code":200}}';
     } else {
         echo '{"status":{"message":"Bad Request - Match has already been added for user","status_code":409}}';

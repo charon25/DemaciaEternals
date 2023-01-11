@@ -107,7 +107,7 @@
         <div class="row mt-3 mb-3">
             <div class="col-12 col-sm-12 d-flex justify-content-center"><h3>Statistiques des Demaciens</h3></div>
         </div>
-        
+
         <div class="row mt-3 mb-5 order-div" id="order-alpha">
                 <?php
                     $COLS = 5;
@@ -120,7 +120,7 @@
                     }
                 ?>
         </div>
-        
+
         <div class="row mt-3 mb-5 order-div" id="order-games">
                 <?php
                     $COLS = 5;
@@ -153,7 +153,7 @@
                 ?>
         </div>
 
-        
+
         <div class="row mt-3 mb-5 order-div" id="order-games">
                 <?php
                     $COLS = 5;

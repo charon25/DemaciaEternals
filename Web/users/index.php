@@ -3,7 +3,7 @@
     require_once('../utils/check_token.php');
 
     require_once('../utils/bdd.php');
-    
+
     if (!array_key_exists('user_id', $_GET)) {
         $request = $bdd->query('SELECT * FROM `et2_users`');
 
@@ -20,9 +20,9 @@
                 'smurfs_sid' => $row['smurfs_sid']
             );
         }
-    
+
         echo json_encode($output);
-        
+
     } else {
         $request = $bdd->prepare('SELECT * FROM `et2_users` WHERE `user_id`=?');
         $request->execute(array($_GET['user_id']));

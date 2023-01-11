@@ -96,7 +96,7 @@
             $masteries[$user_id] = array('user_id' => $user_id, 'name' => $user['name'], 'champion' => $CHAMPION, 'points' => $mastery);
         }
 
-        usort($masteries, 'cmp_masteries'); 
+        usort($masteries, 'cmp_masteries');
     }
 
 ?>
@@ -159,8 +159,8 @@
                 </div>
             </div>
         </div>
-        
-        
+
+
         <div class="row mt-3">
             <div class="col-12 d-flex justify-content-center"><h3>Mode de jeu</h3></div>
             <div class="offset-1 offset-lg-3 col-10 col-lg-6 d-flex justify-content-center"><p>5 games sont requises pour être affiché dans le classement.</p></div>
@@ -186,7 +186,7 @@
                     echo '<h4 class="mb-3">' . $stats[$stat_symbol]['name'] . '</h4>';
                     echo '<div class="table-responsive vertical-scroll"><table id="table-rankings-q-' . $queue_id . '-s-' . $stat_symbol . '" class="table table-hover table-dark table-striped text-center">';
                     echo '<thead class="table-dark"><tr><th scope="col" class="text-nowrap clickable" width="100">Rang ↕</th><th scope="col" class="text-nowrap clickable text-left" width="100">Demacien ↕</th><th scope="col" class="text-nowrap clickable">' . $stat_symbol . ' ↕</th></tr></thead>';
-                    
+
                     echo '<tbody>';
                     $rank = 1;
                     foreach ($ranking[$stat_symbol] as $_ => $user) {
@@ -223,7 +223,7 @@
                     button.classList.remove('btn-primary');
                 }
             }
-            
+
             var tables = document.getElementsByClassName('ranking');
             for (let table of tables) {
                 if (table.id.includes(`q-${queue}`)) {
@@ -237,7 +237,7 @@
 
         change_queue(420);
     </script>
-    
+
     <script src='js/sort_table.js'></script>
 
 </html>

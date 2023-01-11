@@ -76,19 +76,19 @@ class RiotAPI:
     def _get_match_json(self, match_id):
         url = f'https://europe.api.riotgames.com/lol/match/v5/matches/{match_id}'
         return self._get_response(url)
-    
+
     def _get_participant(self, match, puuid):
         for participant in match['info']['participants']:
             if participant['puuid'] == puuid:
                 return participant
         return None
-    
+
     def _get_opponent_participant(self, match, participant):
         for other_participant in match['info']['participants']:
             if other_participant['teamId'] != participant['teamId'] and other_participant['individualPosition'] == participant['individualPosition']:
                 return other_participant
         return None
-    
+
     def _get_match_general_data(self, match):
         info = match['info']
         return {
@@ -112,7 +112,7 @@ class RiotAPI:
             if len(temp_list) < 100:
                 break
             start += 100
-        
+
         self.logger.add_line('riot', f'{len(matchlist)} matches found : {matchlist}')
 
         for match_id in matchlist:
@@ -124,7 +124,7 @@ class RiotAPI:
                 match_data = self._get_match_general_data(match)
 
                 self.logger.add_line('riot', f'Match {match_id} played at {datetime.fromtimestamp(int(match_data["time"])).strftime("%H:%M:%S")}')
-                
+
                 if match_data['duration'] < 10 * 60:
                     continue
 
@@ -153,7 +153,7 @@ class RiotAPI:
                 self.logger.add_line('riot-error', f"Error while analysing match '{match_id}' : {str(e)}")
             else:
                 output.append(match_data)
-        
+
         return output
 
     def get_current_version(self):
@@ -186,7 +186,7 @@ class RiotAPI:
             self.logger.add_line('riot-error', f"Error while fetching champions : {str(e)}")
         else:
             return output
-    
+
     def get_champion_masteries(self, summoner_id, champions_dict):
         url = f'https://euw1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/{summoner_id}'
         masteries = self._get_response(url)
@@ -197,7 +197,7 @@ class RiotAPI:
                 output[champions_dict[champion['championId']][0]] = champion['championPoints']
             except Exception as e:
                 self.logger.add_line('riot-error', f"Error while getting champion '{champion}' mastery : {str(e)}")
-        
+
         return output
 
     def get_ranks(self, summoner_id):
@@ -217,7 +217,7 @@ class RiotAPI:
                     output[rank_type]['lp'] += int('miniSeries' in league)
 
         return output
-    
+
     def _get_item_type(self, id, item):
         if id == '1001' or ('from' in item and '1001' in item['from']):
             return 'boots'
@@ -265,7 +265,7 @@ class RiotAPI:
                 output[id] = {'name': item['name'], 'name_fr': data_fr[id]['name'], 'type': self._get_item_type(id, item)}
         except Exception as e:
             self.logger.add_line('riot-error', f"Error while fecthing items : {str(e)}")
-        
+
         return output
 
     def _get_smaller_lp(self, league, type):
@@ -302,6 +302,6 @@ class RiotAPI:
         soloq_challengers = self._get_smaller_lp('grandmaster', 'RANKED_FLEX_SR')
         if soloq_challengers is not None:
             output['flex']['gm'] = soloq_challengers
-        
+
         return output
 

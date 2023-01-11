@@ -23,7 +23,7 @@ class Logger:
             else:
                 self.logger.info(f'[{time.strftime("%Y/%m/%d %H:%M:%S")}] [{origin.upper()}] {line}')
         self.unsaved_lines.append(f'[{time.strftime("%Y/%m/%d %H:%M:%S")}] [{origin.upper()}] {line}')
-    
+
     def save(self):
         with open(LOG_FILE, 'a', encoding='utf-8') as fo:
             fo.write('\n'.join(self.unsaved_lines) + '\n')

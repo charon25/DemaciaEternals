@@ -10,7 +10,7 @@ class Charon25FR:
     def __init__(self, token, logger) -> None:
         self.token = token
         self.logger = logger
-    
+
     def _post_request(self, url, data):
         try:
             req = requests.post(
@@ -24,7 +24,7 @@ class Charon25FR:
         except Exception as e:
             self.logger.add_line('charon-error', f"Error '{str(e)}' while requesting url '{url}'")
             return None
-        
+
         self.logger.add_line('charon', f"Request for url '{url}' : {req.status_code} - {req.text}")
         if req.status_code >= 400:
             self.logger.add_line('charon-error', f"Error {req.status_code} : '{req.text[:100]}'")
@@ -45,19 +45,19 @@ class Charon25FR:
             self.logger.add_line('charon-error', f"Error '{str(e)}' while requesting url '{url}'")
 
         return []
-    
+
     def update_patch(self, patch):
         url = f'{URL}/update-patch'
         return self._post_request(url, {'patch': patch})
-    
+
     def update_user(self, user_id, puuid, summoner_id):
         url = f'{URL}/users/update/?user_id={user_id}'
         return self._post_request(url, {'user': {'puuid': puuid, 'summoner_id': summoner_id}})
-    
+
     def update_user_avatar(self, user_id, avatar):
         url = f'{URL}/users/update/avatar?user_id={user_id}'
         return self._post_request(url, {'avatar': avatar})
-    
+
     def update_user_time(self, user_id, time):
         url = f'{URL}/users/update/time?user_id={user_id}'
         return self._post_request(url, {'time': time})
@@ -81,7 +81,7 @@ class Charon25FR:
     def update_items(self, items):
         url = f'{URL}/items/update'
         return self._post_request(url, {'items': items})
-    
+
     def update_master_limites(self, master_limits):
         url = f'{URL}/update-master-limits'
         return self._post_request(url, {'limits': master_limits})

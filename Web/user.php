@@ -83,7 +83,7 @@
                 $champions_stats[$queue_id][$champion_name][$stat_symbol] /= $games_counts[$queue_id][$champion_name];
             }
         }
-        
+
     }
 
     foreach ($QUEUES as $queue_id => $queue_name) {
@@ -139,7 +139,7 @@
 
     if (count($ranks['flex']) > 0) {
         $last_entry_flex = $ranks['flex'][count($ranks['flex']) - 1];
-        $current_flex = array('elo' => get_ranks_from_lp($last_entry_flex['lp']), 'winrate' => get_winrate($last_entry_flex['wins'], $last_entry_flex['losses']));        
+        $current_flex = array('elo' => get_ranks_from_lp($last_entry_flex['lp']), 'winrate' => get_winrate($last_entry_flex['wins'], $last_entry_flex['losses']));
     } else {
         $no_flex = TRUE;
     }
@@ -149,7 +149,7 @@
 
     // ITEMS
     $raw_items_data = get_user_items_stats($bdd, $user['user_id']);
-    $items_data = array();    
+    $items_data = array();
     foreach ($QUEUES as $queue_id => $queue_name) {
         $items_data[$queue_id] = array();
     }
@@ -220,14 +220,14 @@
 
             foreach ($champions_stats as $queue_id => $queue) {
                 echo '<div class="row mt-3 mb-3 hide played-champions" id="played-champions-q-' . $queue_id . '"><div class="offset-1 col-10  offset-lg-1 col-lg-10"><div class="table-responsive vertical-scroll"><table id="table-played-champions-q-' . $queue_id . '" class="table table-hover table-dark table-striped text-center">';
-                
+
                 echo '<thead class="table-dark"><tr><th scope="col" class="text-nowrap clickable">Champion' . ($queue_id == 450 ? '' : ' (Rôle)') . ' ↕</th><th scope="col" class="text-nowrap clickable" title="Nombre de games">#Games ↕</th>';
                 foreach ($stats as $stat_symbol => $stat) {
                     if ($queue_id == 450 && in_array($stat_symbol, $ARAM_REMOVED)) continue;
                     echo '<th scope="col" class="text-nowrap clickable" title="' . $stat['name'] . '">' . $stat_symbol . ' ↕</th>';
                 }
                 echo '</tr></thead>';
-                
+
                 echo '<tbody>';
                 foreach ($queue as $champion_name => $queue_champions_stats) {
                     echo '<tr>';
@@ -263,13 +263,13 @@
             foreach ($opponents_stats as $queue_id => $queue) {
                 if ($queue_id == 450) continue;
                 echo '<div class="row mb-3 hide opponents-champions" id="opponents-champions-q-' . $queue_id . '"><div class="offset-1 col-10  col-lg-10"><div class="table-responsive vertical-scroll"><table id="table-opponents-champions-q-' . $queue_id . '" class="table table-hover table-dark table-striped text-center">';
-                
+
                 echo '<thead class="table-dark"><tr><th scope="col" class="text-nowrap clickable">Champion' . ($queue_id == 450 ? '' : ' (Rôle)') . ' ↕</th><th scope="col" class="text-nowrap clickable" title="Nombre de games">#Games ↕</th>';
                 foreach ($stats as $stat_symbol => $stat) {
                     echo '<th scope="col" class="text-nowrap clickable" title="' . $stat['name'] . '">' . $stat_symbol . ' ↕</th>';
                 }
                 echo '</tr></thead>';
-                
+
                 echo '<tbody>';
                 foreach ($queue as $champion_name => $queue_opponent_stats) {
                     echo '<tr>';
@@ -329,7 +329,7 @@
         </div>
         <?php } ?>
         </div>
-        
+
         <div class="row mt-3 mb-3">
             <div class="col-12 d-flex justify-content-center">
                 <?php print_title_with_expand('ELO Flex', 'elo-flex'); ?>
@@ -369,7 +369,7 @@
         <?php } ?>
 
         <?php if ($user['auth'] & 4) { ?>
-            
+
         <div class="row mt-5 mb-3">
             <div class="col-12 d-flex justify-content-center">
                 <?php print_title_with_expand('Points de maîtrise', 'masteries'); ?>

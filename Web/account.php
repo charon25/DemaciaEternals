@@ -112,7 +112,7 @@
 
     if (isset($_POST['submit_auth'])) {
         $auth = 0;
-        for ($i = 0; $i < 6; $i++) { 
+        for ($i = 0; $i < 6; $i++) {
             $checkbox = "auth_$i";
             if (isset($_POST[$checkbox])) {
                 $auth += pow(2, $i);
@@ -145,7 +145,7 @@
         }
 
         $auth = 0;
-        for ($i = 0; $i < 6; $i++) { 
+        for ($i = 0; $i < 6; $i++) {
             $checkbox = "auth_$i";
             if (isset($_POST[$checkbox])) {
                 $auth += pow(2, $i);
@@ -413,7 +413,7 @@
                     </div>
                 </form>
             <?php } ?>
-        
+
         <?php } ?>
 
     </body>

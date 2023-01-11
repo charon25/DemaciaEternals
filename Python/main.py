@@ -104,7 +104,7 @@ while True:
                     ranks = riot.get_ranks(user['summoner_id'])
                     for rank_type in ranks:
                         charon.add_rank(user['user_id'], rank_type, ranks[rank_type])
-                    
+
                     if previous_day is not None:
                         matchs = riot.get_matchs_data(user['user_id'], user['puuid'], int(time.time()) - 24 * 60 * 60, matches_done[user['user_id']])
                         for match in matchs:
@@ -112,13 +112,13 @@ while True:
                             matches_done[user['user_id']][match['id']] = None
                         if len(matches_done[user['user_id']]) > 350:
                             matches_done[user['user_id']] = {k: None for k in list(matches_done[user['user_id']].keys())[-350:]}
-                
+
                 logger.add_line('main', f"Adding matches of user '{user['name']}'")
                 matchs = riot.get_matchs_data(user['user_id'], user['puuid'], user['time'], matches_done)
                 for match in matchs:
                     charon.add_match(user['user_id'], match)
                     matches_done[user['user_id']][match['id']] = None
-                
+
                 charon.update_user_time(user['user_id'], time.time())
             except Exception as e:
                 logger.add_line('main-error', f"Error while doing user '{user['name']}' : {str(e)}")

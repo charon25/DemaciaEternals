@@ -21,7 +21,7 @@ function sort_columns(table, index) {
     var newRows = Array.from(rows);
 
     var direction = directions[table.id][index];
-    
+
     newRows.sort(function (rowA, rowB) {
         var cellA = rowA.querySelectorAll('td')[index];
         var cellB = rowB.querySelectorAll('td')[index];

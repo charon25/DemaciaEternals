@@ -17,14 +17,14 @@
                 'games_count' => $req->fetch()['COUNT(*)']
             );
         }
-    
+
         return $games_count;
     }
 
     function get_champions_games_count($bdd) {
         global $SEASON_13_START;
         $request = $bdd->query('SELECT `name` FROM `et2_champions`');
-    
+
         $games_count = array();
         while ($row = $request->fetch()) {
             $req = $bdd->prepare('SELECT COUNT(*) FROM `et2_matchs` WHERE `champion`=? AND `time`>=?');
@@ -33,7 +33,7 @@
                 'games_count' => $req->fetch()['COUNT(*)']
             );
         }
-    
+
         return $games_count;
     }
 
@@ -81,7 +81,7 @@
                 }
             }
 
-            
+
             foreach ($stats as $stat_symbol => $stat) {
                 $output[$queue_id][$stat_symbol] = array_sum($sums[$queue_id][$stat_symbol]) / count($sums[$queue_id][$stat_symbol]);
             }
@@ -100,9 +100,9 @@
         $request = $bdd->prepare('SELECT `masteries` FROM `et2_masteries` WHERE `user_id`=?');
         $request->execute(array($user_id));
         $result = $request->fetch();
-        
+
         if (!is_array($result)) return array();
-    
+
         $masteries = json_decode($result['masteries'], TRUE);
 
         if ($min_points == 0 && $limit == 1000) {
@@ -115,7 +115,7 @@
                 $count++;
                 if ($count >= $limit || intval($points) < $min_points) break;
             }
-        
+
             return $champions;
         }
     }
@@ -124,9 +124,9 @@
         $request = $bdd->prepare('SELECT `masteries` FROM `et2_masteries` WHERE `user_id`=?');
         $request->execute(array($user_id));
         $result = $request->fetch();
-        
+
         if (!is_array($result)) return -1;
-    
+
         $masteries = json_decode($result['masteries'], TRUE);
 
         if (array_key_exists($champion, $masteries)) {
@@ -148,10 +148,10 @@
 
     function get_champions_stats($bdd, $user_id, $side = 'champion') {
         global $SEASON_13_START;
-    
+
         $request = $bdd->prepare('SELECT * FROM `et2_matchs` WHERE `user_id`=? AND `time`>=?');
         $request->execute(array($user_id, $SEASON_13_START));
-    
+
         $unsorted_data = array();
         while ($row = $request->fetch()) {
             $queue = $row['queue'];
@@ -164,13 +164,13 @@
             }
             $unsorted_data[$queue][$champion]['games'][] = $match;
         }
-    
+
         $sorted_data = array();
         foreach ($unsorted_data as $queue_id => $queue) {
             usort($queue, '_compare_champions__get_request');
             $sorted_data[$queue_id] = $queue;
         }
-    
+
         return $sorted_data;
     }
 
@@ -183,7 +183,7 @@
         global $SEASON_13_START;
         $request = $bdd->prepare('SELECT * FROM `et2_ranks` WHERE `user_id`=? AND `time`>=? ORDER BY `time` ASC');
         $request->execute(array($user_id, $SEASON_13_START));
-    
+
         $output = array("soloq" => array(), "flex" => array());
         while ($row = $request->fetch()) {
             $rank_type = (intval($row['type']) == 0 ? "soloq" : "flex");
@@ -194,8 +194,8 @@
                 'losses' => $row['losses']
             );
         }
-    
-        return $output;        
+
+        return $output;
     }
 
     function _compare_items__get_request($item1, $item2) {
@@ -209,7 +209,7 @@
         global $SEASON_13_START;
         $request = $bdd->prepare('SELECT `queue`, `items`, `win` FROM `et2_matchs` WHERE `user_id`=? AND `time`>=?');
         $request->execute(array($user_id, $SEASON_13_START));
-    
+
         $unsorted_data = array();
         while ($row = $request->fetch()) {
             $queue = $row['queue'];
@@ -220,13 +220,13 @@
                 $unsorted_data[$queue][$item_id]['games'][] = array('win' => $row['win']);
             }
         }
-    
+
         $sorted_data = array();
         foreach ($unsorted_data as $queue_id => $queue) {
             usort($queue, '_compare_items__get_request');
             $sorted_data[$queue_id] = $queue;
         }
-    
+
         return $sorted_data;
     }
 

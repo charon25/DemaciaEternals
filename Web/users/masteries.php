@@ -26,7 +26,7 @@
             if (intval($points) >= $min_points && $count < $limit) $output[$champion] = $points;
             $count++;
         }
-    
+
         echo json_encode($output);
     }
 

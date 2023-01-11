@@ -7,7 +7,7 @@ class Discord:
     def __init__(self, token, logger) -> None:
         self.token = token
         self.logger = logger
-    
+
     def get_avatar(self, discord_id):
         url = f'https://discordapp.com/api/v6/users/{discord_id}'
 

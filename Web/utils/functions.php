@@ -130,7 +130,7 @@
         return strcmp($champion1['showname'], $champion2['showname']);
     }
 
-    function get_all_champions($bdd, $patch, $alphabetic=FALSE) {        
+    function get_all_champions($bdd, $patch, $alphabetic=FALSE) {
         $request = $bdd->query('SELECT * FROM `et2_champions`');
         $champions = array();
 

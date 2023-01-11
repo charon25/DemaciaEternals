@@ -53,7 +53,7 @@
             }
         }
 
-        
+
         foreach ($stats as $stat_symbol => $stat) {
             $output[$queue_id][$stat_symbol] = array_sum($sums[$queue_id][$stat_symbol]) / count($sums[$queue_id][$stat_symbol]);
         }
