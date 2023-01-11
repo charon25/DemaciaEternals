@@ -52,7 +52,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Éternels 2 de Demacia</title>
+        <title>Éternels 2 de Demacia - Saison 13</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
         <link rel="stylesheet" href="style.css">
         <link rel="icon" href="resources/icon.png">
@@ -60,7 +60,7 @@
 
     <body class="cfont container-fluid">
         <div class="row mt-2 mb-3">
-            <div class="col-12 col-sm-12 d-flex justify-content-center text-center"><h1>Éternels 2 de Demacia</h1></div>
+            <div class="col-12 col-sm-12 d-flex justify-content-center text-center"><h1>Éternels 2 de Demacia - Saison 13</h1></div>
         </div>
 
         <div class="row mt-3 mb-3">
@@ -113,7 +113,9 @@
                     $COLS = 5;
                     $k = 0;
                     foreach ($users as $_ => $user) {
-                        echo '<div class="col-4 col-lg-2 d-flex justify-content-center pt-2 pb-1 ' . ($k % 12 < 6 ? 'main-table-even' : 'main-table-odd') . ' bordered' . ($k < 6 ? ' top-bordered-lg' . ($k < 3 ? ' top-bordered' : '') : '') . ($k % 6 == 3 ? ' left-bordered-no-lg' : '') . ($k % 6 == 0 ? ' left-bordered' : '') . '"><a class="text-center" href="user?user_id=' . $user['user_id'] . '"><img src="' . $user['img'] . '"><br>' . $user['name'] . '<br>' . $users_games_count[$user['user_id']]['games_count'] . ' games</a></div>';
+                        $game_count = $users_games_count[$user['user_id']]['games_count'];
+                        if (!$game_count) $game_count = 0;
+                        echo '<div class="col-4 col-lg-2 d-flex justify-content-center pt-2 pb-1 ' . ($k % 12 < 6 ? 'main-table-even' : 'main-table-odd') . ' bordered' . ($k < 6 ? ' top-bordered-lg' . ($k < 3 ? ' top-bordered' : '') : '') . ($k % 6 == 3 ? ' left-bordered-no-lg' : '') . ($k % 6 == 0 ? ' left-bordered' : '') . '"><a class="text-center" href="user?user_id=' . $user['user_id'] . '"><img src="' . $user['img'] . '"><br>' . $user['name'] . '<br>' . $game_count . ' game' . ($game_count > 1 ? 's' : '') . '</a></div>';
                         $k++;
                     }
                 ?>
@@ -124,7 +126,9 @@
                     $COLS = 5;
                     $k = 0;
                     foreach ($users_by_games as $_ => $user) {
-                        echo '<div class="col-4 col-lg-2 d-flex justify-content-center pt-2 pb-1 ' . ($k % 12 < 6 ? 'main-table-even' : 'main-table-odd') . ' bordered' . ($k < 6 ? ' top-bordered-lg' . ($k < 3 ? ' top-bordered' : '') : '') . ($k % 6 == 3 ? ' left-bordered-no-lg' : '') . ($k % 6 == 0 ? ' left-bordered' : '') . '"><a class="text-center" href="user?user_id=' . $user['user_id'] . '"><img src="' . $user['img'] . '"><br>' . $user['name'] . '<br>' . $users_games_count[$user['user_id']]['games_count'] . ' games</a></div>';
+                        $game_count = $users_games_count[$user['user_id']]['games_count'];
+                        if (!$game_count) $game_count = 0;
+                        echo '<div class="col-4 col-lg-2 d-flex justify-content-center pt-2 pb-1 ' . ($k % 12 < 6 ? 'main-table-even' : 'main-table-odd') . ' bordered' . ($k < 6 ? ' top-bordered-lg' . ($k < 3 ? ' top-bordered' : '') : '') . ($k % 6 == 3 ? ' left-bordered-no-lg' : '') . ($k % 6 == 0 ? ' left-bordered' : '') . '"><a class="text-center" href="user?user_id=' . $user['user_id'] . '"><img src="' . $user['img'] . '"><br>' . $user['name'] . '<br>' . $game_count . ' game' . ($game_count > 1 ? 's' : '') . '</a></div>';
                         $k++;
                     }
                 ?>
@@ -141,7 +145,9 @@
                     $COLS = 5;
                     $k = 0;
                     foreach ($champions as $_ => $champion) {
-                        echo '<div class="col-4 col-lg-2 d-flex justify-content-center pt-2 pb-1 ' . ($k % 12 < 6 ? 'main-table-even' : 'main-table-odd') . ' bordered' . ($k < 6 ? ' top-bordered-lg' . ($k < 3 ? ' top-bordered' : '') : '') . ($k % 6 == 3 ? ' left-bordered-no-lg' : '') . ($k % 6 == 0 ? ' left-bordered' : '') . '"><a class="text-center" href="ranking?champion=' . $champion['name'] . '"><img width="50" src="' . $champion['img'] . '"><br>' . $champion['showname'] . '<br>' . $champions_games_count[$champion['name']]['games_count'] . ' games</a></div>';
+                        $game_count = $champions_games_count[$champion['name']]['games_count'];
+                        if (!$game_count) $game_count = 0;
+                        echo '<div class="col-4 col-lg-2 d-flex justify-content-center pt-2 pb-1 ' . ($k % 12 < 6 ? 'main-table-even' : 'main-table-odd') . ' bordered' . ($k < 6 ? ' top-bordered-lg' . ($k < 3 ? ' top-bordered' : '') : '') . ($k % 6 == 3 ? ' left-bordered-no-lg' : '') . ($k % 6 == 0 ? ' left-bordered' : '') . '"><a class="text-center" href="ranking?champion=' . $champion['name'] . '"><img width="50" src="' . $champion['img'] . '"><br>' . $champion['showname'] . '<br>' . $game_count . ' game' . ($game_count > 1 ? 's' : '') . '</a></div>';
                         $k++;
                     }
                 ?>
@@ -153,7 +159,9 @@
                     $COLS = 5;
                     $k = 0;
                     foreach ($champions_by_games as $_ => $champion) {
-                        echo '<div class="col-4 col-lg-2 d-flex justify-content-center pt-2 pb-1 ' . ($k % 12 < 6 ? 'main-table-even' : 'main-table-odd') . ' bordered' . ($k < 6 ? ' top-bordered-lg' . ($k < 3 ? ' top-bordered' : '') : '') . ($k % 6 == 3 ? ' left-bordered-no-lg' : '') . ($k % 6 == 0 ? ' left-bordered' : '') . '"><a class="text-center" href="ranking?champion=' . $champion['name'] . '"><img width="50" src="' . $champion['img'] . '"><br>' . $champion['showname'] . '<br>' . $champions_games_count[$champion['name']]['games_count'] . ' games</a></div>';
+                        $game_count = $champions_games_count[$champion['name']]['games_count'];
+                        if (!$game_count) $game_count = 0;
+                        echo '<div class="col-4 col-lg-2 d-flex justify-content-center pt-2 pb-1 ' . ($k % 12 < 6 ? 'main-table-even' : 'main-table-odd') . ' bordered' . ($k < 6 ? ' top-bordered-lg' . ($k < 3 ? ' top-bordered' : '') : '') . ($k % 6 == 3 ? ' left-bordered-no-lg' : '') . ($k % 6 == 0 ? ' left-bordered' : '') . '"><a class="text-center" href="ranking?champion=' . $champion['name'] . '"><img width="50" src="' . $champion['img'] . '"><br>' . $champion['showname'] . '<br>' . $game_count . ' game' . ($game_count > 1 ? 's' : '') . '</a></div>';
                         $k++;
                     }
                 ?>

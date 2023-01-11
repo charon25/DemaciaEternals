@@ -8,3 +8,4 @@ totalMinionsKilled
 neutralMinionsKilled
 visionScore
 championName
+pentaKills

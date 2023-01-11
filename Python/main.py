@@ -13,6 +13,8 @@ logger = Logger()
 DEV = False
 WAKEUP_PERIOD = 3600 if not DEV else 60
 
+GAMES_COUNT_CHANNEL = ''
+
 logger.add_line('main', f'Starting program with DEV = {DEV}')
 
 RIOT_TOKEN = ''
@@ -71,6 +73,7 @@ while True:
             charon.update_champions(champions)
             charon.update_items(items)
 
+        total_matches = 0
         for user in users:
             time.sleep(0.1)
 
@@ -121,6 +124,7 @@ while True:
                 logger.add_line('main-error', f"Error while doing user '{user['name']}' : {str(e)}")
 
         previous_day = current_day
+        discord.send_message(GAMES_COUNT_CHANNEL, f'Games processed : {total_matches}')
     except Exception as e:
         logger.add_line('main-error', f"Error while doing main loop : {str(e)}")
 

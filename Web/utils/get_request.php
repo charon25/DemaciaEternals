@@ -1,14 +1,17 @@
 <?php
 
+    $SEASON_13_START = 1673413200;
+
     require_once('functions.php');
 
     function get_users_games_count($bdd) {
+        global $SEASON_13_START;
         $request = $bdd->query('SELECT `user_id`, `name` FROM `et2_users`');
 
         $games_count = array();
         while ($row = $request->fetch()) {
-            $req = $bdd->prepare('SELECT COUNT(*) FROM `et2_matchs` WHERE `user_id`=?');
-            $req->execute(array($row['user_id']));
+            $req = $bdd->prepare('SELECT COUNT(*) FROM `et2_matchs` WHERE `user_id`=? AND `time`>=?');
+            $req->execute(array($row['user_id'], $SEASON_13_START));
             $games_count[$row['user_id']] = array(
                 'name' => $row['name'],
                 'games_count' => $req->fetch()['COUNT(*)']
@@ -19,12 +22,13 @@
     }
 
     function get_champions_games_count($bdd) {
+        global $SEASON_13_START;
         $request = $bdd->query('SELECT `name` FROM `et2_champions`');
     
         $games_count = array();
         while ($row = $request->fetch()) {
-            $req = $bdd->prepare('SELECT COUNT(*) FROM `et2_matchs` WHERE `champion`=?');
-            $req->execute(array($row['name']));
+            $req = $bdd->prepare('SELECT COUNT(*) FROM `et2_matchs` WHERE `champion`=? AND `time`>=?');
+            $req->execute(array($row['name'], $SEASON_13_START));
             $games_count[$row['name']] = array(
                 'games_count' => $req->fetch()['COUNT(*)']
             );
@@ -35,12 +39,13 @@
 
 
     function get_user_average_champion_stats($bdd, $user_id, $champion) {
+        global $SEASON_13_START;
         $stats = get_all_stats($bdd);
 
         $QUEUES = array(400, 420, 440, 450);
 
-        $request = $bdd->prepare('SELECT * FROM `et2_matchs` WHERE `user_id`=?');
-        $request->execute(array($user_id));
+        $request = $bdd->prepare('SELECT * FROM `et2_matchs` WHERE `user_id`=? AND `time`>=?');
+        $request->execute(array($user_id, $SEASON_13_START));
 
         $games = array();
         $sums = array();
@@ -142,9 +147,10 @@
     }
 
     function get_champions_stats($bdd, $user_id, $side = 'champion') {
+        global $SEASON_13_START;
     
-        $request = $bdd->prepare('SELECT * FROM `et2_matchs` WHERE `user_id`=?');
-        $request->execute(array($user_id));
+        $request = $bdd->prepare('SELECT * FROM `et2_matchs` WHERE `user_id`=? AND `time`>=?');
+        $request->execute(array($user_id, $SEASON_13_START));
     
         $unsorted_data = array();
         while ($row = $request->fetch()) {
@@ -174,8 +180,9 @@
 
 
     function get_user_ranks($bdd, $user_id) {
-        $request = $bdd->prepare('SELECT * FROM `et2_ranks` WHERE `user_id`=? ORDER BY `time` ASC');
-        $request->execute(array($user_id));
+        global $SEASON_13_START;
+        $request = $bdd->prepare('SELECT * FROM `et2_ranks` WHERE `user_id`=? AND `time`>=? ORDER BY `time` ASC');
+        $request->execute(array($user_id, $SEASON_13_START));
     
         $output = array("soloq" => array(), "flex" => array());
         while ($row = $request->fetch()) {
@@ -199,8 +206,9 @@
     }
 
     function get_user_items_stats($bdd, $user_id) {
-        $request = $bdd->prepare('SELECT `queue`, `items`, `win` FROM `et2_matchs` WHERE `user_id`=?');
-        $request->execute(array($user_id));
+        global $SEASON_13_START;
+        $request = $bdd->prepare('SELECT `queue`, `items`, `win` FROM `et2_matchs` WHERE `user_id`=? AND `time`>=?');
+        $request->execute(array($user_id, $SEASON_13_START));
     
         $unsorted_data = array();
         while ($row = $request->fetch()) {
